@@ -105,7 +105,7 @@ export function Login() {
             Welcome to ClaimLens
           </h1>
           <p className="text-gray-400 text-sm mt-2">
-            Sign in to your PS2 MVP Account
+            Sign in to your ClaimLens account
           </p>
         </div>
 
