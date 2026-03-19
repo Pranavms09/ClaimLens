@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Languages } from "lucide-react";
+import logo from "../assets/logo.png";
 import "./SplashIntro.css";
 
 type AnimationPhase = "scanning" | "extracting" | "validating" | "complete";
@@ -88,10 +88,8 @@ export function SplashIntro({ onComplete }: SplashIntroProps) {
 
           {/* Result Phase */}
           <div className={`success-overlay ${phase === "complete" ? "active" : ""}`}>
-            <div className="brand-logo mb-4">
-              <div className="logo-icon-wrapper">
-                <Languages className="w-8 h-8 text-white" />
-              </div>
+            <div className="mb-4">
+              <img src={logo} alt="ClaimLens Logo" className="h-20 w-auto" />
             </div>
             <h2 className="success-brand">ClaimLens</h2>
             <p className="success-tagline">AI-Powered Healthcare Claims Intelligence</p>

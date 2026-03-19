@@ -5,10 +5,10 @@ import {
   Activity,
   Bot,
   Settings,
-  Network,
   History,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -41,9 +41,7 @@ export function Sidebar({ isOpen }: SidebarProps) {
     >
       <div className="flex items-center justify-between h-16 min-h-[4rem] px-4 border-b border-gray-200 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-900 z-10 transition-colors duration-300">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-blue-600">
-            <Network className="text-white w-5 h-5" />
-          </div>
+          <img src={logo} alt="ClaimLens Logo" className="h-8 w-auto" />
           <span className="font-bold text-lg tracking-tight text-slate-900 dark:text-white">
             ClaimLens
           </span>

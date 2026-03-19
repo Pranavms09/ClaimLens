@@ -1,4 +1,5 @@
-import { Languages, Chrome, Moon, Sun } from "lucide-react";
+import { Chrome, Moon, Sun } from "lucide-react";
+import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
@@ -93,13 +94,8 @@ export function Login() {
 
       <div className="w-full max-w-md bg-card border border-border p-8 rounded-2xl shadow-sm dark:shadow-none">
         <div className="text-center mb-8">
-          <div
-            className="w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center"
-            style={{
-              background: "linear-gradient(to bottom right, #5555ff, #10b981)",
-            }}
-          >
-            <Languages className="text-slate-900 dark:text-slate-100 w-6 h-6" />
+          <div className="mx-auto mb-4 flex items-center justify-center">
+            <img src={logo} alt="ClaimLens Logo" className="h-16 w-auto" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight">
             Welcome to ClaimLens
