@@ -5,7 +5,7 @@ import "./SplashIntro.css";
 
 type AnimationPhase = "scanning" | "extracting" | "validating" | "complete";
 
-export function SplashIntro() {
+export function SplashIntro({ onComplete }: { onComplete?: () => void }) {
   const navigate = useNavigate();
   const [phase, setPhase] = useState<AnimationPhase>("scanning");
 
@@ -25,9 +25,13 @@ export function SplashIntro() {
       setPhase("complete");
     }, 1800);
 
-    // Redirect (2.8s)
-    const redirectTimer = setTimeout(() => {
-      navigate("/dashboard");
+    // Redirect or Complete (2.8s)
+    const completionTimer = setTimeout(() => {
+      if (onComplete) {
+        onComplete();
+      } else {
+        navigate("/dashboard");
+      }
     }, 2800);
 
     return () => {

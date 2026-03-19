@@ -9,10 +9,18 @@ import { Settings } from "./pages/Settings";
 import { History } from "./pages/History";
 import { SplashIntro } from "./pages/SplashIntro";
 
+import { useState } from "react";
+
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  if (showSplash) {
+    return <SplashIntro onComplete={() => setShowSplash(false)} />;
+  }
+
   return (
     <Routes>
-      <Route path="/" element={<SplashIntro />} />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
