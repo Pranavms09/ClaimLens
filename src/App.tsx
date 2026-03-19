@@ -7,11 +7,12 @@ import { FileAnalysis } from "./pages/FileAnalysis";
 import { AIAssistant } from "./pages/AIAssistant";
 import { Settings } from "./pages/Settings";
 import { History } from "./pages/History";
+import { SplashIntro } from "./pages/SplashIntro";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/" element={<SplashIntro />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
