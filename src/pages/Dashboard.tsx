@@ -9,12 +9,14 @@ import {
 } from "lucide-react";
 
 import { useDashboardData } from "../hooks/useDashboardData";
-import { Loader2 } from "lucide-react";
+import { Loader2, Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 export function Dashboard() {
   const data = useDashboardData();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   if (data.isLoading) {
     return (
@@ -35,6 +37,19 @@ export function Dashboard() {
       icon={<FileUp className="w-5 h-5 text-blue-500" />}
     >
       <div className="max-w-7xl mx-auto w-full">
+        {user?.isDemo && (
+          <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl flex items-center gap-3 animate-pulse">
+            <Info className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-blue-900 dark:text-blue-100">
+                You are viewing demo data
+              </p>
+              <p className="text-xs text-blue-700 dark:text-blue-300">
+                This environment is for exploration. Changes will not be saved to the database.
+              </p>
+            </div>
+          </div>
+        )}
         {/* Header Section */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold tracking-tight mb-2">

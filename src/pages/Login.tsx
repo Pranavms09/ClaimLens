@@ -5,6 +5,7 @@ import {
   auth,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInAnonymously,
   googleProvider,
 } from "../lib/firebase";
 import { useAuth } from "../hooks/useAuth";
@@ -16,7 +17,7 @@ export function Login() {
   const [error, setError] = useState<string | null>(null);
   const [isSigningIn, setIsSigningIn] = useState(false);
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, updateUserContext } = useAuth();
   const { theme, setTheme } = useTheme();
 
   const isDark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -53,6 +54,25 @@ export function Login() {
       if (error.code !== "auth/cancelled-popup-request" && error.code !== "auth/popup-closed-by-user") {
         setError(error.message || "Google sign-in failed. Please try again.");
       }
+    } finally {
+      setIsSigningIn(false);
+    }
+  };
+
+  const handleDemoLogin = async () => {
+    if (isSigningIn) return;
+    setError(null);
+    setIsSigningIn(true);
+    try {
+      // Try real Firebase Auth first
+      await signInAnonymously(auth);
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.warn("Firebase Anonymous Auth failed, falling back to local demo mode:", error.message);
+      // Fallback: Use local mode if Firebase operation is restricted or fails
+      localStorage.setItem("claimlens_demo_mode", "true");
+      updateUserContext();
+      navigate("/dashboard");
     } finally {
       setIsSigningIn(false);
     }
@@ -147,13 +167,26 @@ export function Login() {
           <div className="flex-grow border-t border-gray-700"></div>
         </div>
 
-        <button
-          onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-2 bg-white dark:bg-[#1a1a1c] border border-gray-300 dark:border-gray-700 text-slate-900 dark:text-slate-100 font-medium rounded-lg px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm dark:shadow-none"
-        >
-          <Chrome className="w-4 h-4" />
-          Google
-        </button>
+        <div className="space-y-3">
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center gap-2 bg-white dark:bg-[#1a1a1c] border border-gray-300 dark:border-gray-700 text-slate-900 dark:text-slate-100 font-medium rounded-lg px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition shadow-sm dark:shadow-none"
+          >
+            <Chrome className="w-4 h-4" />
+            Google
+          </button>
+
+          <button
+            onClick={handleDemoLogin}
+            className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg px-4 py-2 transition shadow-sm"
+          >
+            Try Demo
+          </button>
+          
+          <p className="text-center text-[10px] text-gray-500 font-medium">
+            ⚡ Instant access for demo — no signup needed
+          </p>
+        </div>
 
         <p className="text-center text-sm text-gray-400 mt-6">
           Don't have an account?{" "}

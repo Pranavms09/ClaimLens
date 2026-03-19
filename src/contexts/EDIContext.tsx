@@ -7,6 +7,7 @@ import {
   removeHistoryEntry as removeFromFirestore,
   clearAllHistory as clearFirestoreHistory,
 } from "../lib/historyService";
+import { MOCK_CLAIMS } from "../data/mockClaims";
 
 export interface AIAnalysisResult {
   fileType: string;
@@ -118,12 +119,17 @@ export function EDIProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    if (user?.isDemo) {
+      setHistory(MOCK_CLAIMS);
+      return;
+    }
+
     setHistoryLoading(true);
     loadHistoryFromFirestore(uid)
       .then((entries) => setHistory(entries))
       .catch(() => setHistory([]))
       .finally(() => setHistoryLoading(false));
-  }, [uid]);
+  }, [uid, user?.isDemo]);
 
   const setAIAnalysis = async (result: AIAnalysisResult, fileName = "Unknown File") => {
     setAiAnalysisState(result);
@@ -136,11 +142,15 @@ export function EDIProvider({ children }: { children: ReactNode }) {
     };
 
     if (uid) {
-      try {
-        const firestoreId = await addToFirestore(uid, entry);
-        entry._firestoreId = firestoreId;
-      } catch (err) {
-        console.error("Failed to save history to Firestore:", err);
+      if (user?.isDemo) {
+        // Don't save demo user activity to Firestore, just keep it in memory
+      } else {
+        try {
+          const firestoreId = await addToFirestore(uid, entry);
+          entry._firestoreId = firestoreId;
+        } catch (err) {
+          console.error("Failed to save history to Firestore:", err);
+        }
       }
     } else {
       // Guest: use localStorage
@@ -156,10 +166,14 @@ export function EDIProvider({ children }: { children: ReactNode }) {
   const clearHistory = async () => {
     setHistory([]);
     if (uid) {
-      try {
-        await clearFirestoreHistory(uid);
-      } catch (err) {
-        console.error("Failed to clear Firestore history:", err);
+      if (user?.isDemo) {
+        // Just clear memory for demo user
+      } else {
+        try {
+          await clearFirestoreHistory(uid);
+        } catch (err) {
+          console.error("Failed to clear Firestore history:", err);
+        }
       }
     } else {
       localStorage.removeItem(LOCAL_STORAGE_KEY);
@@ -169,10 +183,14 @@ export function EDIProvider({ children }: { children: ReactNode }) {
   const removeHistoryEntry = async (entry: HistoryEntry) => {
     setHistory((prev) => prev.filter((e) => e.id !== entry.id));
     if (uid && entry._firestoreId) {
-      try {
-        await removeFromFirestore(uid, entry._firestoreId);
-      } catch (err) {
-        console.error("Failed to remove history entry from Firestore:", err);
+      if (user?.isDemo) {
+        // Memory only
+      } else {
+        try {
+          await removeFromFirestore(uid, entry._firestoreId);
+        } catch (err) {
+          console.error("Failed to remove history entry from Firestore:", err);
+        }
       }
     } else {
       const updated = history.filter((e) => e.id !== entry.id);
