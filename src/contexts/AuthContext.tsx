@@ -20,7 +20,16 @@ export const AuthContext = createContext<AuthContextType>({
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
-  const [isLocalDemo, setIsLocalDemo] = useState(localStorage.getItem("claimlens_demo_mode") === "true");
+  const [isLocalDemo, setIsLocalDemo] = useState(() => {
+    const hasVisited = localStorage.getItem("claimlens_visited");
+    if (!hasVisited) {
+      // First time visitor - enable demo mode by default
+      localStorage.setItem("claimlens_visited", "true");
+      localStorage.setItem("claimlens_demo_mode", "true");
+      return true;
+    }
+    return localStorage.getItem("claimlens_demo_mode") === "true";
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

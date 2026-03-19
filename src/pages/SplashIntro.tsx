@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Shield, Languages, Search, Database, Fingerprint } from "lucide-react";
+import { Languages } from "lucide-react";
 import "./SplashIntro.css";
 
 type AnimationPhase = "scanning" | "extracting" | "validating" | "complete";
