@@ -164,7 +164,7 @@ export function Dashboard() {
             <h3 className="text-lg font-bold mb-6">
               Validation Error Breakdown
             </h3>
-            <div className="flex-1 flex flex-col justify-end space-y-4">
+            <div className="flex-1 flex flex-col justify-start space-y-4">
               {data.errorBreakdown.length > 0 ? (
                 data.errorBreakdown.map((item, i) => (
                   <div key={i} className="flex items-center gap-4">
