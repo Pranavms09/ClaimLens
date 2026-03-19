@@ -150,7 +150,14 @@ export const MOCK_CLAIMS: HistoryEntry[] = [
           totalPrice: "12450.50",
         },
       ],
-      errors: [],
+      errors: [
+        {
+          segment: "REF",
+          elementPosition: "2",
+          description: "Missing Required Authorization Code for Institutional Claim",
+          severity: "Warnings",
+        },
+      ],
     },
   },
   {
@@ -177,6 +184,12 @@ export const MOCK_CLAIMS: HistoryEntry[] = [
           segment: "STC",
           elementPosition: "2",
           description: "Claim Pending: Additional Documentation Required for COB",
+          severity: "Warnings",
+        },
+        {
+          segment: "REF",
+          elementPosition: "2",
+          description: "Missing Required Authorization Code for Institutional Claim",
           severity: "Warnings",
         },
       ],
@@ -254,7 +267,14 @@ export const MOCK_CLAIMS: HistoryEntry[] = [
           totalPrice: "0.00",
         },
       ],
-      errors: [],
+      errors: [
+        {
+          segment: "NM1",
+          elementPosition: "9",
+          description: "Critical Error: Invalid or Missing Provider NPI (National Provider Identifier)",
+          severity: "Critical",
+        },
+      ],
     },
   },
   {
