@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Languages } from "lucide-react";
 import "./SplashIntro.css";
 
 type AnimationPhase = "scanning" | "extracting" | "validating" | "complete";
 
-export function SplashIntro({ onComplete }: { onComplete?: () => void }) {
+interface SplashIntroProps {
+  onComplete?: () => void;
+}
+
+export function SplashIntro({ onComplete }: SplashIntroProps) {
   const navigate = useNavigate();
   const [phase, setPhase] = useState<AnimationPhase>("scanning");
 
