@@ -38,7 +38,7 @@ export function SplashIntro({ onComplete }: { onComplete?: () => void }) {
       clearTimeout(scanTimer);
       clearTimeout(extractTimer);
       clearTimeout(validateTimer);
-      clearTimeout(redirectTimer);
+      clearTimeout(completionTimer);
     };
   }, [navigate]);
 
