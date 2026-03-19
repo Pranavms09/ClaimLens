@@ -164,20 +164,22 @@ export function Dashboard() {
             <h3 className="text-lg font-bold mb-6">
               Validation Error Breakdown
             </h3>
-            <div className="flex-1 flex flex-col justify-start space-y-4">
+            <div className="flex-1 flex flex-col justify-center gap-4">
               {data.errorBreakdown.length > 0 ? (
                 data.errorBreakdown.map((item, i) => (
-                  <div key={i} className="flex items-center gap-4">
-                    <div className="w-48 text-right text-xs font-semibold text-slate-600 dark:text-slate-400 truncate">
-                      {item.label}
+                  <div key={i} className="flex items-center gap-4 p-3 border border-gray-100 dark:border-slate-700/50 rounded-xl bg-slate-50/50 dark:bg-slate-900/50">
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-semibold text-slate-600 dark:text-slate-400 truncate mb-1">
+                        {item.label}
+                      </div>
+                      <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+                        <div
+                          className={`${item.color} h-full rounded-full transition-all duration-1000`}
+                          style={{ width: `${item.percent}%` }}
+                        ></div>
+                      </div>
                     </div>
-                    <div className="flex-1 bg-slate-100 dark:bg-slate-800 rounded-full h-4 overflow-hidden">
-                      <div
-                        className={`${item.color} h-full rounded-full transition-all duration-1000`}
-                        style={{ width: `${item.percent}%` }}
-                      ></div>
-                    </div>
-                    <div className="w-12 text-left text-xs text-slate-900 dark:text-slate-100 font-mono">
+                    <div className="w-10 text-right text-xs text-slate-900 dark:text-slate-100 font-bold font-mono">
                       {item.count}
                     </div>
                   </div>
